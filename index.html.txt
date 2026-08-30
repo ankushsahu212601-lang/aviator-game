@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; text-align: center; margin-top: 50px; }
+        #display { font-size: 48px; color: #00ffcc; margin: 20px; }
+        .btn { padding: 15px 30px; font-size: 20px; background: #e91e63; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Aviator Live Test</h1>
+    <div id="display">1.00x</div>
+    <button class="btn" onclick="cashout()">Cash Out</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const display = document.getElementById('display');
+
+        socket.on('gameUpdate', (data) => {
+            display.innerText = data.multiplier + 'x';
+            display.style.color = '#00ffcc';
+        });
+
+        socket.on('gameCrashed', (data) => {
+            display.innerText = 'CRASHED @ ' + data.finalMultiplier + 'x';
+            display.style.color = 'red';
+        });
+
+        function cashout() {
+            alert('Cashed out at: ' + display.innerText);
+        }
+    </script>
+</body>
+</html>
